@@ -67,8 +67,11 @@ if [[ $# -ge 1 && -f "$1" ]]; then
 fi
 
 # Offline: binary sitting next to this script
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [[ -f "$SCRIPT_DIR/bluebuild" ]]; then
+SCRIPT_DIR=""
+if [[ -n "${BASH_SOURCE[0]:-}" ]]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+if [[ -n "$SCRIPT_DIR" && -f "$SCRIPT_DIR/bluebuild" ]]; then
     echo "↳ Offline mode: found bluebuild next to script"
     install_binary "$SCRIPT_DIR/bluebuild"
     exit 0
