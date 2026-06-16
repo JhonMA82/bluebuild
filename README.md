@@ -10,6 +10,37 @@
 
 BlueBuild's command line program that builds Containerfiles and custom images based on your recipe.yml.
 
+## 🚀 Instalación rápida (cualquier distro)
+
+Un solo comando. Sin compilar. Sin importar si usás Debian, Ubuntu, Fedora, Arch o cualquier otra.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/JhonMA82/bluebuild/main/install-local.sh | bash
+```
+
+**¿Qué hace?** Detecta si tenés `podman` o `docker`, baja el binario precompilado desde `ghcr.io` y lo instala en `/usr/local/bin/bluebuild`. Listo.
+
+### Modo offline
+
+Si necesitás instalar en una máquina sin internet:
+
+```bash
+# En una máquina con podman/docker, extraé el binario una sola vez:
+podman pull ghcr.io/blue-build/cli:v0.9.35-installer
+podman create --name bb-tmp ghcr.io/blue-build/cli:v0.9.35-installer
+podman cp bb-tmp:/out/bluebuild ./bluebuild
+podman rm bb-tmp
+
+# Copiá el binario a un USB y en la máquina destino:
+./install-local.sh ./bluebuild
+```
+
+### ¿Qué problema resuelve?
+
+El upstream de blue-build requiere compilar con `cargo install` o usar el script oficial que también necesita podman/docker online. **Este wrapper agrega modo offline** y mejores mensajes de error cuando falta el container runtime.
+
+---
+
 ## Requirements
 
 The `bluebuild` tool takes advantage of newer build features. Specifically bind, cache, and tmpfs mounts on the `RUN` instructions. We support using the following tools and their versions:
